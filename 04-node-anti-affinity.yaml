@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anti-affinity
+spec:
+  affinity:
+    nodeAffinity:
+    #hard rule
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: " lables like topology.kubernetes.io/zone:"
+            operator: NotIn
+            values:
+            - "lable value like us-east-1b"
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
