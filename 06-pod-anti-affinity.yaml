@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-3
+  labels:
+     app: pod-3
+spec:
+affinity:
+  podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+          labelSelector:
+            matchExpressions:
+            - key: security
+              operator: In
+              values:
+              - pod-1
+              - pod-2
+          topologyKey: topology.kubernetes.io/zone
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: Always
