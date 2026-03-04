@@ -1,0 +1,32 @@
+kind: Deployment
+metadata:
+  name: tainst-tolerations
+  # these are replica set labels
+  labels:
+    purpose: toleration-demo
+    project: roboshop
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      purpose: toleration-demo
+      project: roboshop
+  # pod definition
+  template:
+    metadata:
+      labels:
+        # purpose: dp-demo
+        purpose: toleration-demo
+        project: roboshop
+    spec:
+      nodeSelector:
+         "label of tainted node"
+      containers:
+      - name: nginx
+        image: nginx:latest
+      tolerations:
+      - key: "project"
+      operator: "Equal"
+      value: "roboshop"
+      effect: "NoSchedule"
